@@ -19,7 +19,7 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
 
 
 
-## WHAT DO DO
+## WHAT TO DO
 Tetris JFX
 
 In case you have never played tetris before, each shape appeared will be randomized with a distinct color.
