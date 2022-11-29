@@ -22,18 +22,18 @@ public class App extends Application {
 
 //v The variables
 public static final int MOVE = 25;
-//^ the game runs on a mesh or a grid, making each moving shape move from one open tile to the next
+//^ the game runs on a grid, making each moving shape move from one open tile to the next
 public static final int SIZE = 25;
-//^ the size of the tile of the mesh
-public static int XMAX = SIZE * 12;
+//^ the size of the tile of the GRID
+public static int XWIDTH = SIZE * 12;
 //^ game's width
-public static int YMAX = SIZE * 24;
+public static int YHEIGHT = SIZE * 24;
 //^ game's height
-public static int[][] MESH = new int[XMAX / SIZE][YMAX / SIZE];
-//^ filling the game's area with the mesh
+public static int[][] GRID = new int[XWIDTH / SIZE][YHEIGHT / SIZE];
+//^ filling the game's area with the GRID
 private static Pane group = new Pane();
 private static Form object;
-private static Scene scene = new Scene(group, XMAX + 150, YMAX);
+private static Scene scene = new Scene(group, XWIDTH + 150, YHEIGHT);
 //^ side area containing the main score and line score
 public static int score = 0;
 private static int top = 0;
@@ -57,19 +57,19 @@ private static int linesNo = 0;
 
     @Override
 	public void start(Stage stage) throws Exception {
-		for (int[] a : MESH) {
+		for (int[] a : GRID) {
 			Arrays.fill(a, 0);
 		}
 
-		Line line = new Line(XMAX, 0, XMAX, YMAX);
+		Line line = new Line(XWIDTH, 0, XWIDTH, YHEIGHT);
 		Text scoretext = new Text("Score: ");
 		scoretext.setStyle("-fx-font: 20 arial;");
 		scoretext.setY(50);
-		scoretext.setX(XMAX + 5);
+		scoretext.setX(XWIDTH + 5);
 		Text level = new Text("Lines: ");
 		level.setStyle("-fx-font: 20 arial;");
 		level.setY(100);
-		level.setX(XMAX + 5);
+		level.setX(XWIDTH + 5);
 		level.setFill(Color.GREEN);
 		group.getChildren().addAll(scoretext, line, level);
 		//^ this creates the black line seperating the game and score, and also creates the in game text
@@ -449,12 +449,12 @@ private static int linesNo = 0;
 		ArrayList<Node> newrects = new ArrayList<Node>();
 		int full = 0;
 		//v checks which line is full
-		for (int i = 0; i < MESH[0].length; i++) {
-			for (int j = 0; j < MESH.length; j++) {
-				if (MESH[j][i] == 1)
+		for (int i = 0; i < GRID[0].length; i++) {
+			for (int j = 0; j < GRID.length; j++) {
+				if (GRID[j][i] == 1)
 					full++;
 			}
-			if (full == MESH.length)
+			if (full == GRID.length)
 			lines.add(i);
 			//lines.add(i + lines.size());
 			full = 0;
@@ -475,7 +475,7 @@ private static int linesNo = 0;
 				for (Node node : rects) {
 					Rectangle a = (Rectangle) node;
 					if (a.getY() == lines.get(0) * SIZE) {
-						MESH[(int) a.getX() / SIZE][(int) a.getY() / SIZE] = 0;
+						GRID[(int) a.getX() / SIZE][(int) a.getY() / SIZE] = 0;
 						pane.getChildren().remove(node);
 					} else
 						newrects.add(node);
@@ -484,7 +484,7 @@ private static int linesNo = 0;
 				for (Node node : newrects) {
 					Rectangle a = (Rectangle) node;
 					if (a.getY() < lines.get(0) * SIZE) {
-						MESH[(int) a.getX() / SIZE][(int) a.getY() / SIZE] = 0;
+						GRID[(int) a.getX() / SIZE][(int) a.getY() / SIZE] = 0;
 						a.setY(a.getY() + SIZE);
 					}
 				}
@@ -499,7 +499,7 @@ private static int linesNo = 0;
 				for (Node node : rects) {
 					Rectangle a = (Rectangle) node;
 					try {
-						MESH[(int) a.getX() / SIZE][(int) a.getY() / SIZE] = 1;
+						GRID[(int) a.getX() / SIZE][(int) a.getY() / SIZE] = 1;
 					} catch (ArrayIndexOutOfBoundsException e) {
 					}
 				}
@@ -508,13 +508,13 @@ private static int linesNo = 0;
 	}
 	//v control finally functions
 	private void MoveDown(Rectangle rect) {
-		if (rect.getY() + MOVE < YMAX)
+		if (rect.getY() + MOVE < YHEIGHT)
 			rect.setY(rect.getY() + MOVE);
 
 	}
 
 	private void MoveRight(Rectangle rect) {
-		if (rect.getX() + MOVE <= XMAX - SIZE)
+		if (rect.getX() + MOVE <= XWIDTH - SIZE)
 			rect.setX(rect.getX() + MOVE);
 	}
 
@@ -531,12 +531,12 @@ private static int linesNo = 0;
 
 	//v moving one block down if down is full
 	private void MoveDown(Form form) {
-		if (form.a.getY() == YMAX - SIZE || form.b.getY() == YMAX - SIZE || form.c.getY() == YMAX - SIZE
-				|| form.d.getY() == YMAX - SIZE || moveA(form) || moveB(form) || moveC(form) || moveD(form)) {
-			MESH[(int) form.a.getX() / SIZE][(int) form.a.getY() / SIZE] = 1;
-			MESH[(int) form.b.getX() / SIZE][(int) form.b.getY() / SIZE] = 1;
-			MESH[(int) form.c.getX() / SIZE][(int) form.c.getY() / SIZE] = 1;
-			MESH[(int) form.d.getX() / SIZE][(int) form.d.getY() / SIZE] = 1;
+		if (form.a.getY() == YHEIGHT - SIZE || form.b.getY() == YHEIGHT - SIZE || form.c.getY() == YHEIGHT - SIZE
+				|| form.d.getY() == YHEIGHT - SIZE || moveA(form) || moveB(form) || moveC(form) || moveD(form)) {
+			GRID[(int) form.a.getX() / SIZE][(int) form.a.getY() / SIZE] = 1;
+			GRID[(int) form.b.getX() / SIZE][(int) form.b.getY() / SIZE] = 1;
+			GRID[(int) form.c.getX() / SIZE][(int) form.c.getY() / SIZE] = 1;
+			GRID[(int) form.d.getX() / SIZE][(int) form.d.getY() / SIZE] = 1;
 			RemoveRows(group);
 
 			Form a = nextObj;
@@ -547,12 +547,12 @@ private static int linesNo = 0;
 		}
 
 		//v moving one block down if down isnt full
-		if (form.a.getY() + MOVE < YMAX && form.b.getY() + MOVE < YMAX && form.c.getY() + MOVE < YMAX
-				&& form.d.getY() + MOVE < YMAX) {
-			int movea = MESH[(int) form.a.getX() / SIZE][((int) form.a.getY() / SIZE) + 1];
-			int moveb = MESH[(int) form.b.getX() / SIZE][((int) form.b.getY() / SIZE) + 1];
-			int movec = MESH[(int) form.c.getX() / SIZE][((int) form.c.getY() / SIZE) + 1];
-			int moved = MESH[(int) form.d.getX() / SIZE][((int) form.d.getY() / SIZE) + 1];
+		if (form.a.getY() + MOVE < YHEIGHT && form.b.getY() + MOVE < YHEIGHT && form.c.getY() + MOVE < YHEIGHT
+				&& form.d.getY() + MOVE < YHEIGHT) {
+			int movea = GRID[(int) form.a.getX() / SIZE][((int) form.a.getY() / SIZE) + 1];
+			int moveb = GRID[(int) form.b.getX() / SIZE][((int) form.b.getY() / SIZE) + 1];
+			int movec = GRID[(int) form.c.getX() / SIZE][((int) form.c.getY() / SIZE) + 1];
+			int moved = GRID[(int) form.d.getX() / SIZE][((int) form.d.getY() / SIZE) + 1];
 			if (movea == 0 && movea == moveb && moveb == movec && movec == moved) {
 				form.a.setY(form.a.getY() + MOVE);
 				form.b.setY(form.b.getY() + MOVE);
@@ -563,33 +563,33 @@ private static int linesNo = 0;
 	}
 	//v movement must be done for each tile
 	private boolean moveA(Form form) {
-		return (MESH[(int) form.a.getX() / SIZE][((int) form.a.getY() / SIZE) + 1] == 1);
+		return (GRID[(int) form.a.getX() / SIZE][((int) form.a.getY() / SIZE) + 1] == 1);
 	}
 
 	private boolean moveB(Form form) {
-		return (MESH[(int) form.b.getX() / SIZE][((int) form.b.getY() / SIZE) + 1] == 1);
+		return (GRID[(int) form.b.getX() / SIZE][((int) form.b.getY() / SIZE) + 1] == 1);
 	}
 
 	private boolean moveC(Form form) {
-		return (MESH[(int) form.c.getX() / SIZE][((int) form.c.getY() / SIZE) + 1] == 1);
+		return (GRID[(int) form.c.getX() / SIZE][((int) form.c.getY() / SIZE) + 1] == 1);
 	}
 
 	private boolean moveD(Form form) {
-		return (MESH[(int) form.d.getX() / SIZE][((int) form.d.getY() / SIZE) + 1] == 1);
+		return (GRID[(int) form.d.getX() / SIZE][((int) form.d.getY() / SIZE) + 1] == 1);
 	}
 
 	private boolean cB(Rectangle rect, int x, int y) {
 		boolean xb = false;
 		boolean yb = false;
 		if (x >= 0)
-			xb = rect.getX() + x * MOVE <= XMAX - SIZE;
+			xb = rect.getX() + x * MOVE <= XWIDTH - SIZE;
 		if (x < 0)
 			xb = rect.getX() + x * MOVE >= 0;
 		if (y >= 0)
 			yb = rect.getY() - y * MOVE > 0;
 		if (y < 0)
-			yb = rect.getY() + y * MOVE < YMAX;
-		return xb && yb && MESH[((int) rect.getX() / SIZE) + x][((int) rect.getY() / SIZE) - y] == 0;
+			yb = rect.getY() + y * MOVE < YHEIGHT;
+		return xb && yb && GRID[((int) rect.getX() / SIZE) + x][((int) rect.getY() / SIZE) - y] == 0;
 	}
 
 

@@ -38,13 +38,13 @@ public class Form {
             color = Color.ORANGE;
             break;
         case "o":
-            color = Color.YELLOW;
+            color = Color.GOLD;
             break;
         case "s":
             color = Color.LIME;
             break;
         case "t":
-            color = Color.ORCHID;
+            color = Color.MEDIUMPURPLE;
             break;
         case "z":
             color = Color.RED;
